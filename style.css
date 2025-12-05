@@ -19,7 +19,7 @@ h2 {
     margin-bottom: 15px;
 }
 
-.chatbox {
+.chat-box {
     height: 350px;
     overflow-y: auto;
     border: 1px solid #ccc;
@@ -27,6 +27,8 @@ h2 {
     margin-bottom: 10px;
     border-radius: 8px;
     background: #fafafa;
+    display: flex;
+    flex-direction: column;
 }
 
 p {
@@ -34,23 +36,26 @@ p {
     border-radius: 6px;
     margin: 6px 0;
     max-width: 80%;
+    word-wrap: break-word;
+    font-size: 15px;
 }
 
 .mensagem-user {
     background: #d1e7ff;
     align-self: flex-end;
     text-align: right;
-    margin-left: auto;
 }
 
 .mensagem-bot {
     background: #d5f5d4;
-    text-align: left;
+    align-self: flex-start;
 }
 
-.input-area {
+.area-input,
+.botoes-config {
     display: flex;
     gap: 10px;
+    margin-top: 10px;
 }
 
 input {
@@ -67,6 +72,7 @@ button {
     color: white;
     border-radius: 6px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 button:hover {
