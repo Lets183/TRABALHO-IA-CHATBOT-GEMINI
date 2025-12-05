@@ -47,4 +47,3 @@ $resposta = $json["candidates"][0]["content"]["parts"][0]["text"]
     ?? "A IA não respondeu.";
 
 echo json_encode(["resposta" => $resposta]);
-
