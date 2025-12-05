@@ -1,4 +1,3 @@
-
 const perguntas = [
     { 
         chave: ["essencial", "saúde", "criança"], 
@@ -22,20 +21,15 @@ const perguntas = [
     }
 ];
 
-
 function buscarResposta(mensagem) {
     const texto = mensagem.toLowerCase();
-
     let melhorResposta = null;
     let maiorPontuacao = 0;
 
     perguntas.forEach(item => {
         let pontos = 0;
-
         item.chave.forEach(chave => {
-            if (texto.includes(chave)) {
-                pontos++;
-            }
+            if (texto.includes(chave)) pontos++;
         });
 
         if (pontos > maiorPontuacao) {
@@ -44,55 +38,60 @@ function buscarResposta(mensagem) {
         }
     });
 
-    if (melhorResposta) {
-        return melhorResposta;
-    }
-
-    return "❓ Não entendi. Pode perguntar de outro jeito?";
+    return melhorResposta || "❓ Não entendi. Pode perguntar de outro jeito?";
 }
 
-
+function limparChat() {
+    document.getElementById("chat").innerHTML = "";
+}
 
 function mostrarMensagem(texto, classe) {
     const chat = document.getElementById("chat");
     const p = document.createElement("p");
-
     p.className = classe;
     p.textContent = texto;
-
     chat.appendChild(p);
-    chat.scrollTop = chat.scrollHeight; 
+    chat.scrollTop = chat.scrollHeight;
 }
 
-
 function enviarMensagem() {
-   
-    const msg = document.getElementById("campoMensagem").value;
+    const campo = document.getElementById("campoMensagem");
+    const msg = campo.value.trim();
 
-    if (msg.trim() ===  "") return;
+    if (msg === "") return;
 
     mostrarMensagem("Você: " + msg, "mensagem-user");
-
-    document.getElementById("campoMensagem").value = "";
-    fetch("gemini .php",{
-        method: "POST",
-        headers: { "Content - Type ": "application / x-www-form-urlencoded" },
-        body : "mensagem = " +  encodeURIComponent (msg)
-
-    } )
-  .then(res => res.json())
-  .then( data => {
-    mostrarMensagem("Chatbot: " +  data.resposta , "mensagem-bot");
-
-  } )
-  .catch(() => { 
-    mostrarMensagem("Chatbot: Erro ao se conectar ao servidor. ", " mensagem-bot" );
-  });
     campo.value = "";
+
+    fetch("gemini.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "mensagem=" + encodeURIComponent(msg)
+    })
+    .then(res => res.json())
+    .then(data => {
+        mostrarMensagem("Chatbot: " + data.resposta, "mensagem-bot");
+    })
+    .catch(() => { 
+        mostrarMensagem("Chatbot: Erro ao se conectar ao servidor.", "mensagem-bot");
+    });
 
     const resposta = buscarResposta(msg);
 
     setTimeout(() => {
         mostrarMensagem("Chatbot: " + resposta, "mensagem-bot");
     }, 400);
+}
+
+let tamanhoFonte = 16;
+
+function aumentarFonte() {
+    tamanhoFonte += 2;
+    document.getElementById("chat").style.fontSize = tamanhoFonte + "px";
+}
+
+function diminuirFonte() {
+    tamanhoFonte -= 2;
+    if (tamanhoFonte < 10) tamanhoFonte = 10;
+    document.getElementById("chat").style.fontSize = tamanhoFonte + "px";
 }
