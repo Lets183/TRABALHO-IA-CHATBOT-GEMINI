@@ -9,9 +9,19 @@
 
 <div class="container">
     <h2>Chatbot da Enfermagem</h2>
-        <input id="campoMensagem" placeholder="Digite sua mensagem aqui">
+    
+    <div id="chat" class="chat-box"></div>
+
+    <div class="area-input">
+        <input id="campoMensagem" placeholder="Digite sua mensagem aqui" autocomplete="off">
         <button onclick="enviarMensagem()">Enviar</button>
-    <div id="chat"></div>
+    </div>
+
+    <div class="botoes-config">
+        <button onclick="aumentarFonte()">A+</button>
+        <button onclick="diminuirFonte()">A-</button>
+        <button onclick="limparChat()">Limpar Chat</button>
+    </div>
 </div>
 
 <script src="script.js"></script>
